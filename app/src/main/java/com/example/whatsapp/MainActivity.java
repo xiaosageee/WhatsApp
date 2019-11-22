@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
             return fragments.size();
         }
 
-        //addFtagment方法
+        //addFragment方法
         public void addFragment(Fragment fragment, String title){
             fragments.add(fragment);
             titles.add(title);
