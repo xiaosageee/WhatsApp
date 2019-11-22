@@ -6,3 +6,6 @@
         android:title="Logout"
         app:showAsAction="never"/>
 </menu>
+
+<!--点击右上角三个点，选择Logout-->
+<!--具体见Main的onOptionsItemSelected方法-->

@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
     FirebaseUser firebaseUser;
     DatabaseReference reference;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,9 +55,9 @@ public class MainActivity extends AppCompatActivity {
         profile_image = findViewById(R.id.profile_image);
         username = findViewById(R.id.username);
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        reference = FirebaseDatabase.getInstance().getReference("User").child(firebaseUser.getUid());
+        reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
 
-        ValueEventListener valueEventListener = reference.addValueEventListener(new ValueEventListener() {
+        reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
@@ -79,9 +78,10 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = findViewById(R.id.tab_layout);
         ViewPager viewPager = findViewById(R.id.view_pager);
 
+        //将两个Fragment加入到页面上，并显示title
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPagerAdapter.addFragment(new ChatsFragment(), "Chats");
-        viewPagerAdapter.addFragment(new ChatsFragment(), "Users");
+        viewPagerAdapter.addFragment(new ChatsFragment(), "对话");
+        viewPagerAdapter.addFragment(new ChatsFragment(), "好友");
 
         viewPager.setAdapter(viewPagerAdapter);
 
@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.logout:
-                FirebaseAuth.getInstance().signOut();;
+                FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(MainActivity.this, StartActivity.class));
                 finish();
                 return true;
@@ -126,16 +126,19 @@ public class MainActivity extends AppCompatActivity {
             return fragments.get(position);
         }
 
+        //返回Fragment的大小
         @Override
         public int getCount() {
             return fragments.size();
         }
 
+        //addFtagment方法
         public void addFragment(Fragment fragment, String title){
             fragments.add(fragment);
             titles.add(title);
         }
 
+        //获取title的位置
         @Override
         public CharSequence getPageTitle(int position) {
             return titles.get(position);
