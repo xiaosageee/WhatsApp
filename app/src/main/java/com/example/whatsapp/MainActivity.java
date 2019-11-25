@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.whatsapp.Model.User;
 import com.example.whatsapp.fragments.ChatsFragment;
+import com.example.whatsapp.fragments.UsersFragment;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -80,8 +81,8 @@ public class MainActivity extends AppCompatActivity {
 
         //将两个Fragment加入到页面上，并显示title
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPagerAdapter.addFragment(new ChatsFragment(), "对话");
-        viewPagerAdapter.addFragment(new ChatsFragment(), "好友");
+        viewPagerAdapter.addFragment(new ChatsFragment(), "Chats");
+        viewPagerAdapter.addFragment(new UsersFragment(), "Users");
 
         viewPager.setAdapter(viewPagerAdapter);
 
