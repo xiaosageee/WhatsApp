@@ -13,7 +13,7 @@
         android:layout_height="wrap_content">
 
         <RelativeLayout
-            android:background="#EAFBEA"
+            android:background="#beebe9"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp">
