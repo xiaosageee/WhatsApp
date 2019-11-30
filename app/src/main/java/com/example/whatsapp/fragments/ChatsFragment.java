@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 
 import com.example.whatsapp.Adapter.UserAdapter;
 import com.example.whatsapp.Model.Chat;
+import com.example.whatsapp.Model.Chatlist;
 import com.example.whatsapp.Model.User;
 import com.example.whatsapp.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,7 +40,7 @@ public class ChatsFragment extends Fragment {
     FirebaseUser firebaseUser;
     DatabaseReference reference;
 
-    private  List<String> usersList;
+    private  List<Chatlist> usersList;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -52,26 +53,16 @@ public class ChatsFragment extends Fragment {
 
         usersList = new ArrayList<>();
 
-        reference = FirebaseDatabase.getInstance().getReference("Chats");
-
-        //不论是接收方还是发送方，对话人都会展现在“Chats”下，方便发送消息，不必查找联系人
+        reference = FirebaseDatabase.getInstance().getReference("Chatlist").child(firebaseUser.getUid());
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 usersList.clear();
-
-                //循环查找
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    Chat chat = snapshot.getValue(Chat.class);
-
-                    if (chat.getSender().equals(firebaseUser.getUid())){
-                        usersList.add(chat.getReceiver());
-                    }
-                    if (chat.getReceiver().equals(firebaseUser.getUid())){
-                        usersList.add(chat.getSender());
-                    }
+                    Chatlist chatlist = snapshot.getValue(Chatlist.class);
+                    usersList.add(chatlist);
                 }
-                readChats();
+                chatList();
             }
 
             @Override
@@ -80,36 +71,51 @@ public class ChatsFragment extends Fragment {
             }
         });
         return view;
+
+//        reference = FirebaseDatabase.getInstance().getReference("Chats");
+//        //不论是接收方还是发送方，对话人都会展现在“Chats”下，方便发送消息，不必查找联系人
+//        reference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                usersList.clear();
+//
+//                //循环查找
+//                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+//                    Chat chat = snapshot.getValue(Chat.class);
+//
+//                    if (chat.getSender().equals(firebaseUser.getUid())){
+//                        usersList.add(chat.getReceiver());
+//                    }
+//                    if (chat.getReceiver().equals(firebaseUser.getUid())){
+//                        usersList.add(chat.getSender());
+//                    }
+//                }
+//                readChats();
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+
     }
 
-    private void readChats(){
+    private void chatList(){
         mUsers = new ArrayList<>();
-
         reference = FirebaseDatabase.getInstance().getReference("Users");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mUsers.clear();
-
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     User user = snapshot.getValue(User.class);
-
-                    //把好友列表里互发消息的用户展现在“Chats”下
-                    for (String id : usersList){
-                        if (user.getId().equals(id)){
-                            if (mUsers.size() != 0){
-                                for (User user1 : mUsers){
-                                    if (!user.getId().equals(user.getId())){
-                                        mUsers.add(user);
-                                    }
-                                }
-                            } else {
-                                mUsers.add(user);
-                            }
+                    for (Chatlist chatlist : usersList){
+                        if (user.getId().equals(chatlist.getId())){
+                            mUsers.add(user);
                         }
                     }
                 }
-
                 userAdapter = new UserAdapter(getContext(), mUsers, true);
                 recyclerView.setAdapter(userAdapter);
             }
@@ -120,5 +126,44 @@ public class ChatsFragment extends Fragment {
             }
         });
     }
+
+//    private void readChats(){
+//        mUsers = new ArrayList<>();
+//
+//        reference = FirebaseDatabase.getInstance().getReference("Users");
+//        reference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                mUsers.clear();
+//
+//                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+//                    User user = snapshot.getValue(User.class);
+//
+//                    //把好友列表里互发消息的用户展现在“Chats”下
+//                    for (String id : usersList){
+//                        if (user.getId().equals(id)){
+//                            if (mUsers.size() != 0){
+//                                for (User user1 : mUsers){
+//                                    if (!user.getId().equals(user.getId())){
+//                                        mUsers.add(user);
+//                                    }
+//                                }
+//                            } else {
+//                                mUsers.add(user);
+//                            }
+//                        }
+//                    }
+//                }
+//
+//                userAdapter = new UserAdapter(getContext(), mUsers, true);
+//                recyclerView.setAdapter(userAdapter);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+//    }
 
 }

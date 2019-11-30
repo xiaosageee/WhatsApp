@@ -49,6 +49,7 @@ public class MessageActivity extends AppCompatActivity {
     List<Chat> mChat;
 
     RecyclerView recyclerView;
+    String userid;
 
     Intent intent;
 
@@ -84,7 +85,7 @@ public class MessageActivity extends AppCompatActivity {
         text_send = findViewById(R.id.text_send);                                //查找所需的组件
 
         intent = getIntent();
-        final String userid = intent.getStringExtra("userid");
+        userid = intent.getStringExtra("userid");
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();             //获取当前使用者
 
         //发送消息，不能为空
@@ -116,7 +117,9 @@ public class MessageActivity extends AppCompatActivity {
                 if (user.getImageURL().equals("default")){
                     profile_image.setImageResource(R.mipmap.ic_launcher);
                 }else {
-                    Glide.with(MessageActivity.this).load(user .getImageURL()).into(profile_image);
+                    if(MessageActivity.this != null && ! MessageActivity.this.isFinishing()) {
+                        Glide.with(MessageActivity.this).load(user.getImageURL()).into(profile_image);
+                    }
                     //Glide.with(getApplicationContext()).load(user.getImageURL()).into(profile_image);
                 }
 
@@ -167,6 +170,24 @@ public class MessageActivity extends AppCompatActivity {
        // hashMap.put("isseen", false);
 
         reference.child("Chats").push().setValue(hashMap);
+
+        //把user加到聊天碎片
+        final DatabaseReference chatRef = FirebaseDatabase.getInstance().getReference("Chatlist")
+                .child(firebaseUser.getUid())
+                .child(userid);
+        chatRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.exists()) {
+                    chatRef.child("id").setValue(userid);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     //在数据库显示Chat，将所有的消息存储进去
