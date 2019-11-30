@@ -21,7 +21,7 @@
         android:layout_toEndOf="@+id/profile_image"
         android:layout_marginLeft="10dp"
         android:layout_centerVertical="true"
-        android:textSize="18sp"/>
+        android:textSize="20sp"/>
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/img_on"

@@ -71,8 +71,8 @@ public class MainActivity extends AppCompatActivity {
                     profile_image.setImageResource(R.mipmap.ic_launcher);
                 }else{
 
-                    //Glide.with(MainActivity.this).load(user.getImageURL()).into(profile_image);
-                    Glide.with(getApplicationContext()).load(user.getImageURL()).into(profile_image);
+                    Glide.with(MainActivity.this).load(user.getImageURL()).into(profile_image);
+                    //Glide.with(getApplicationContext()).load(user.getImageURL()).into(profile_image);
                 }
             }
 
@@ -87,9 +87,9 @@ public class MainActivity extends AppCompatActivity {
 
         //将两个Fragment加入到页面上，并显示title
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPagerAdapter.addFragment(new ChatsFragment(), "Chats");
-        viewPagerAdapter.addFragment(new UsersFragment(), "Users");
-        viewPagerAdapter.addFragment(new ProfileFragment(), "Profile");
+        viewPagerAdapter.addFragment(new ChatsFragment(), "聊天");
+        viewPagerAdapter.addFragment(new UsersFragment(), "好友");
+        viewPagerAdapter.addFragment(new ProfileFragment(), "个人资料");
 
         viewPager.setAdapter(viewPagerAdapter);
 
