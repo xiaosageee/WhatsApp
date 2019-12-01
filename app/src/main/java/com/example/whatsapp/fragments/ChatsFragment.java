@@ -117,7 +117,7 @@ public class ChatsFragment extends Fragment {
                     }
                 }
                 userAdapter = new UserAdapter(getContext(), mUsers, true);
-                recyclerView.setAdapter(userAdapter);
+                recyclerView.setAdapter(userAdapter);                              //加载适配器到视图
             }
 
             @Override

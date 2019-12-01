@@ -102,6 +102,7 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
+    //打开图片
     private void openImage(){
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -115,9 +116,10 @@ public class ProfileFragment extends Fragment {
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
     }
 
+    //上传图片
     private void uploadImage(){
         final ProgressDialog progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage("Uploading");
+        progressDialog.setMessage("Uploading");                                        //创建文件夹
         progressDialog.show();
 
         if (imageUri != null){

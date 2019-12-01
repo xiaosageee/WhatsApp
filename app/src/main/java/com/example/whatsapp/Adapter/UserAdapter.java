@@ -120,7 +120,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         theLastMessage = "default";
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser != null){
-            currentUserID = firebaseUser.getUid();
+            currentUserID = firebaseUser.getUid();                       //第一次没有判空，退出闪退，加了之后，没问题
         }
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Chats");
 
@@ -130,6 +130,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     Chat chat = snapshot.getValue(Chat.class);
 
+                    //发送者和接受者都显示
                     if (chat.getReceiver().equals(currentUserID) && chat.getSender().equals(userid) ||
                             chat.getReceiver().equals(userid) && chat.getSender().equals(currentUserID)){
 
@@ -139,11 +140,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
                 switch (theLastMessage){
                     case "default":
-                        last_msg.setText(" ");
+                        last_msg.setText(" ");                         //没有消息，显示空
                         break;
 
                     default:
-                        last_msg.setText(theLastMessage);
+                        last_msg.setText(theLastMessage);              //有消息，显示最后一条
                         break;
                 }
 

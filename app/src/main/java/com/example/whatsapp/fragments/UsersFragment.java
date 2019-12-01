@@ -96,7 +96,7 @@ public class UsersFragment extends Fragment {
                 }
 
                 userAdapter = new UserAdapter(getContext(), mUsers, false);
-                recyclerView.setAdapter(userAdapter);
+                recyclerView.setAdapter(userAdapter);                               //把适配器加载到视图中
             }
 
             @Override
@@ -119,7 +119,7 @@ public class UsersFragment extends Fragment {
                         User user = snapshot.getValue(User.class);
 
                         assert user != null;
-                        assert firebaseUser != null;
+                        assert firebaseUser != null;                             //二者不可为空
                         if (!user.getId().equals(firebaseUser.getUid())) {
                             //System.out.println(user.getUsername());
                             mUsers.add(user);

@@ -117,6 +117,8 @@ public class MessageActivity extends AppCompatActivity {
                 if (user.getImageURL().equals("default")){
                     profile_image.setImageResource(R.mipmap.ic_launcher);
                 }else {
+
+                    //之前没有判空，报错
                     if(MessageActivity.this != null && ! MessageActivity.this.isFinishing()) {
                         Glide.with(MessageActivity.this).load(user.getImageURL()).into(profile_image);
                     }

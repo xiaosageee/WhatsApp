@@ -67,9 +67,12 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
                 username.setText(user.getUsername());
+
                 if (user.getImageURL().equals("default")){
                     profile_image.setImageResource(R.mipmap.ic_launcher);
                 } else{
+
+                    //之前没有判空，报错
                     if(MainActivity.this != null && ! MainActivity.this.isFinishing()){
                         Glide.with(MainActivity.this).load(user.getImageURL()).into(profile_image);
                     }
@@ -112,7 +115,8 @@ public class MainActivity extends AppCompatActivity {
             case R.id.logout:
                 FirebaseAuth.getInstance().signOut();
                 //更改，以防崩溃
-                startActivity(new Intent(MainActivity.this, StartActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                startActivity(new Intent(MainActivity.this, StartActivity.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
 
                 return true;
         }

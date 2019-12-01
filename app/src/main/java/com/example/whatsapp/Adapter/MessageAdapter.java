@@ -38,6 +38,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     @NonNull
     @Override
     public MessageAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+        //显示信息的位置
         if (viewType == MSG_TYPE_Right){
             View view = LayoutInflater.from(mContext).inflate(R.layout.chat_item_right, parent,false);
             return new MessageAdapter.ViewHolder(view);
@@ -95,6 +97,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     @Override
     public int getItemViewType(int position) {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        //返回信息发送的位置
         if (mChat.get(position).getSender().equals(firebaseUser.getUid())){
             return  MSG_TYPE_Right;
         }else {
