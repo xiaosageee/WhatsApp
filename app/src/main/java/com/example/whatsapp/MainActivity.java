@@ -72,12 +72,14 @@ public class MainActivity extends AppCompatActivity {
                     profile_image.setImageResource(R.mipmap.ic_launcher);
                 } else{
 
-                    //之前没有判空，报错
-                    if(MainActivity.this != null && ! MainActivity.this.isFinishing()){
-                        Glide.with(MainActivity.this).load(user.getImageURL()).into(profile_image);
-                    }
+//                    //之前没有判空，报错
+//                    if(MainActivity.this != null && ! MainActivity.this.isFinishing()){
+//                        Glide.with(MainActivity.this).load(user.getImageURL()).into(profile_image);
+//                    }
 
-                    //Glide.with(getApplicationContext()).load(user.getImageURL()).into(profile_image);
+                    if (getApplicationContext() != null) {
+                        Glide.with(getApplicationContext()).load(user.getImageURL()).into(profile_image);
+                    }
                 }
             }
 

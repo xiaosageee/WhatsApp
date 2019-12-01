@@ -53,7 +53,7 @@ public class MessageActivity extends AppCompatActivity {
 
     Intent intent;
 
-    //ValueEventListener seenListener;                  //信息是否被查看的监听器
+    ValueEventListener seenListener;                  //信息是否被查看的监听器
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,11 +118,14 @@ public class MessageActivity extends AppCompatActivity {
                     profile_image.setImageResource(R.mipmap.ic_launcher);
                 }else {
 
-                    //之前没有判空，报错
-                    if(MessageActivity.this != null && ! MessageActivity.this.isFinishing()) {
-                        Glide.with(MessageActivity.this).load(user.getImageURL()).into(profile_image);
+//                    //之前没有判空，报错
+//                    if(MessageActivity.this != null && ! MessageActivity.this.isFinishing()) {
+//                        Glide.with(MessageActivity.this).load(user.getImageURL()).into(profile_image);
+//                    }
+
+                    if (getApplicationContext() != null) {
+                        Glide.with(getApplicationContext()).load(user.getImageURL()).into(profile_image);
                     }
-                    //Glide.with(getApplicationContext()).load(user.getImageURL()).into(profile_image);
                 }
 
                 readMessages(firebaseUser.getUid(), userid, user.getImageURL());
@@ -134,32 +137,32 @@ public class MessageActivity extends AppCompatActivity {
             }
         });
 
-        //seenMessage(userid);
+        seenMessage(userid);
 
     }
 
     //是否查看信息
-//    private void seenMessage(final String userid){
-//        reference = FirebaseDatabase.getInstance().getReference("Chats");
-//        seenListener = reference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-//                    Chat chat = snapshot.getValue(Chat.class);
-//                    if (chat.getReceiver().equals(firebaseUser.getUid()) && chat.getSender().equals(userid)){
-//                        HashMap<String, Object> hashMap = new HashMap<>();
-//                        hashMap.put("isseen", true);
-//                        snapshot.getRef().updateChildren(hashMap);
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-//    }
+    private void seenMessage(final String userid){
+        reference = FirebaseDatabase.getInstance().getReference("Chats");
+        seenListener = reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    Chat chat = snapshot.getValue(Chat.class);
+                    if (chat.getReceiver().equals(firebaseUser.getUid()) && chat.getSender().equals(userid)){
+                        HashMap<String, Object> hashMap = new HashMap<>();
+                        hashMap.put("isseen", true);
+                        snapshot.getRef().updateChildren(hashMap);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
 
     //发送方，接收方和发送的消息
     private void sendMessage(String sender, String receiver, String message){
@@ -169,7 +172,7 @@ public class MessageActivity extends AppCompatActivity {
         hashMap.put("sender", sender);
         hashMap.put("receiver", receiver);
         hashMap.put("message", message);
-       // hashMap.put("isseen", false);
+        hashMap.put("isseen", false);
 
         reference.child("Chats").push().setValue(hashMap);
 
@@ -242,7 +245,7 @@ public class MessageActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        //reference.removeEventListener(seenListener);
+        reference.removeEventListener(seenListener);
         status("offline");
     }
 }
