@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.util.Log;
 
 import com.bumptech.glide.Glide;
+import com.example.whatsapp.Model.Chat;
 import com.example.whatsapp.Model.User;
 import com.example.whatsapp.fragments.ChatsFragment;
 import com.example.whatsapp.fragments.ProfileFragment;
@@ -89,19 +90,42 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        TabLayout tabLayout = findViewById(R.id.tab_layout);
-        ViewPager viewPager = findViewById(R.id.view_pager);
+        final TabLayout tabLayout = findViewById(R.id.tab_layout);
+        final ViewPager viewPager = findViewById(R.id.view_pager);
 
-        //将两个Fragment加入到页面上，并显示title
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPagerAdapter.addFragment(new ChatsFragment(), "聊天");
-        viewPagerAdapter.addFragment(new UsersFragment(), "好友");
-        viewPagerAdapter.addFragment(new ProfileFragment(), "个人资料");
+        reference = FirebaseDatabase.getInstance().getReference("Chats");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //将两个Fragment加入到页面上，并显示title
+                ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+                int unread = 0;
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    Chat chat = snapshot.getValue(Chat.class);
+                    if (chat.getReceiver().equals(firebaseUser.getUid()) && !chat.isIsseen()){
+                        unread++;
+                    }
+                }
 
-        viewPager.setAdapter(viewPagerAdapter);
+                if (unread == 0){
+                    viewPagerAdapter.addFragment(new ChatsFragment(), "聊天");
+                } else {
+                    viewPagerAdapter.addFragment(new ChatsFragment(), "("+unread+") 聊天");
+                }
 
-        tabLayout.setupWithViewPager(viewPager);
+                viewPagerAdapter.addFragment(new UsersFragment(), "好友");
+                viewPagerAdapter.addFragment(new ProfileFragment(), "个人资料");
 
+                viewPager.setAdapter(viewPagerAdapter);
+
+                tabLayout.setupWithViewPager(viewPager);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
     }
 
