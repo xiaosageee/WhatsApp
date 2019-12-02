@@ -6,32 +6,33 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    android:background="@color/colorPrimary"
+    android:background="@color/colorAdapter"
     tools:context=".StartActivity">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="WhatsApp"
-        android:textSize="25dp"
-        android:textColor="#fff"
+        android:textSize="35dp"
+        android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold"/>
 
     <Button
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:background="@color/colorPrimaryDark"
+        android:layout_marginTop="90dp"
+        android:background="@drawable/buttonshape"
         android:id="@+id/register"
         android:text="注册"
         android:textSize="20dp"
-        android:textColor="#fff"/>
+        android:textColor="#fff"
+        />
 
     <Button
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="@color/colorPrimaryDark"
+        android:background="@drawable/buttonshape"
         android:id="@+id/login"
         android:text="登录"
         android:textSize="20dp"

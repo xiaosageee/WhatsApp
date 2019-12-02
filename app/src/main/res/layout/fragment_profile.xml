@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="8dp"
-    android:background="#EAFBEA"
+    android:background="@color/colorAdapter"
     tools:context=".fragments.ProfileFragment">
 
     <androidx.cardview.widget.CardView
@@ -13,7 +13,7 @@
         android:layout_height="wrap_content">
 
         <RelativeLayout
-            android:background="#beebe9"
+            android:background="#fffdf9"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp">
@@ -22,7 +22,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Profile"
-                android:textSize="20sp"
+                android:textSize="22sp"
                 android:textColor="@color/colorPrimaryDark"
                 android:textStyle="bold"/>
 
@@ -44,7 +44,7 @@
                 android:text="username"
                 android:textColor="@color/colorPrimaryDark"
                 android:textStyle="bold"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 android:layout_marginBottom="20dp"/>
         </RelativeLayout>
 

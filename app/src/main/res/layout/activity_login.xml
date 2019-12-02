@@ -25,15 +25,15 @@
             android:textSize="20sp"
             android:textStyle="bold"/>
 
-
         <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/email"
-            android:inputType="textEmailAddress"
             android:layout_marginTop="15dp"
-            app:met_floatingLabel="normal"
-            android:hint="Email"/>
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            app:met_floatingLabel="normal" />
+
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:layout_width="match_parent"
@@ -50,7 +50,7 @@
             android:text="登录"
             android:textSize="20dp"
             android:id="@+id/btn_login"
-            android:background="@color/colorPrimaryDark"
+            android:background="@drawable/buttonshape"
             android:layout_marginTop="10dp"
             android:textColor="#fff"/>
 
@@ -67,6 +67,8 @@
             android:textColor="@color/colorPrimaryDark"/>
 
     </LinearLayout>
+
+
 
 
 </RelativeLayout>
