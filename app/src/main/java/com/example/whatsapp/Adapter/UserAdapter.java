@@ -5,17 +5,21 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.whatsapp.FriendActivity;
 import com.example.whatsapp.MessageActivity;
 import com.example.whatsapp.Model.Chat;
 import com.example.whatsapp.Model.User;
 import com.example.whatsapp.R;
+import com.example.whatsapp.fragments.FriendFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -24,6 +28,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
@@ -31,6 +36,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private Context mContext;
     private List<User> mUsers;
     private boolean ischat;
+    private User curUser;
+
+    FirebaseUser firebaseUser;
+    DatabaseReference reference;
+
 
     String theLastMessage;
     String currentUserID;
@@ -50,8 +60,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         final User user = mUsers.get(position);
+
         holder.username.setText(user.getUsername());
 
         if (user.getImageURL().equals("default")){
@@ -60,11 +71,16 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             Glide.with(mContext).load(user.getImageURL()).into(holder.profile_image);
         }
 
+
         //显示最后一条消息
         if (ischat){
             lastMessage(user.getId(), holder.last_msg);
         } else {
             holder.last_msg.setVisibility(View.GONE);
+        }
+
+        if(user.getRelation().equals("is_friend")){
+            holder.add_friend.setVisibility(View.GONE);
         }
 
         //显示是否在线的状态
@@ -90,7 +106,31 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             }
         });
 
+
+        //点击按钮，产生效果
+        holder.add_friend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                relation(user.getId(),"is_friend");
+            }
+        });
+
     }
+
+    //接受所要更改的用户ID和关系值
+    private void relation(String userid, String relation){
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser.getUid() != null) {
+            reference = FirebaseDatabase.getInstance().getReference("Users").child(userid);
+        }
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("relation", relation);                                    //标记是否好友
+
+        reference.updateChildren(hashMap);
+
+    }
+
+
 
     @Override
     public int getItemCount() {
@@ -103,6 +143,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         private ImageView img_on;
         private ImageView img_off;
         private TextView last_msg;
+        private Button add_friend;
 
         public  ViewHolder(View itemView){
             super(itemView);
@@ -112,6 +153,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             img_on = itemView.findViewById(R.id.img_on);
             img_off = itemView.findViewById(R.id.img_off);
             last_msg = itemView.findViewById(R.id.last_msg);
+            add_friend = itemView.findViewById(R.id.add_friend);
         }
     }
 

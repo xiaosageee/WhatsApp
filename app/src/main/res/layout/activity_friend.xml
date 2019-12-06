@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".FriendActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -16,30 +16,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimaryDark"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            android:popupTheme="@style/MenuStyle">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profile_image"
-                android:layout_width="30dp"
-                android:layout_height="30dp"/>
-
-            <TextView
-                android:id="@+id/username"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:textColor="#fff"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:layout_marginStart="25dp"/>
+            android:popupTheme="@style/MenuStyle"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
             <Button
-                android:id="@+id/btn_add_friend"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:layout_marginLeft="130dp"
-                android:background="@drawable/add"/>
+                android:id="@+id/btn_back"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/fanhui" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="添加好友"
+                android:textColor="#fff"
+                android:textSize="20sp"
+                android:layout_gravity="center_horizontal"/>
+
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -47,12 +40,10 @@
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark"
-            app:tabSelectedTextColor="#fff"
-            app:tabIndicatorColor="#fff"
-            app:tabTextColor="#fff"/>
+            android:background="@color/colorPrimaryDark"/>
 
     </com.google.android.material.appbar.AppBarLayout>
+
 
 
     <androidx.viewpager.widget.ViewPager
@@ -64,3 +55,6 @@
 
 
 </LinearLayout>
+
+
+

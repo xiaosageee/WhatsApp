@@ -248,4 +248,6 @@ public class MessageActivity extends AppCompatActivity {
         reference.removeEventListener(seenListener);
         status("offline");
     }
+
+
 }

@@ -1,7 +1,6 @@
 package com.example.whatsapp.fragments;
 
-import android.content.Context;
-import android.net.Uri;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -31,20 +30,21 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class UsersFragment extends Fragment {
-
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class FriendFragment extends Fragment {
     private RecyclerView recyclerView;
     private UserAdapter userAdapter;
     private List<User> mUsers;
 
-
-    EditText search_users;
+    EditText search_friend;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_users, container, false);
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_friend, container, false);
 
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -52,10 +52,8 @@ public class UsersFragment extends Fragment {
 
         mUsers = new ArrayList<>();
 
-        readUsers();
-
-        search_users = view.findViewById(R.id.search_users);
-        search_users.addTextChangedListener(new TextWatcher() {
+        search_friend = view.findViewById(R.id.search_friend);
+        search_friend.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -72,7 +70,7 @@ public class UsersFragment extends Fragment {
             }
         });
 
-        return  view;
+        return view;
     }
 
     //对用户名字进行搜索，排列
@@ -91,46 +89,13 @@ public class UsersFragment extends Fragment {
                     //不能为空值
                     assert firebaseUser != null;
                     assert user != null;
-                    if (!user.getId().equals(firebaseUser.getUid()) && user.getRelation().equals("is_friend")){
+                    if (!user.getId().equals(firebaseUser.getUid()) && user.getRelation().equals("not_friend")){
                         mUsers.add(user);
                     }
                 }
 
                 userAdapter = new UserAdapter(getContext(), mUsers, false);
                 recyclerView.setAdapter(userAdapter);                               //把适配器加载到视图中
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    private void readUsers() {
-        final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
-
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (search_users.getText().toString().equals("") ) {
-                    mUsers.clear();
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        User user = snapshot.getValue(User.class);
-
-                        assert user != null;
-                        assert firebaseUser != null;                             //二者不可为空
-                        if (!user.getId().equals(firebaseUser.getUid()) && user.getRelation().equals("is_friend")) {
-                            //System.out.println(user.getUsername());
-                            mUsers.add(user);
-                        }
-                    }
-
-
-                    userAdapter = new UserAdapter(getContext(), mUsers, false);
-                    recyclerView.setAdapter(userAdapter);
-                }
             }
 
             @Override
