@@ -2,7 +2,6 @@ package com.example.whatsapp.fragments;
 
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,15 +10,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.os.storage.StorageManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.whatsapp.ContactActivity;
+import com.example.whatsapp.GuanyuActivity;
+import com.example.whatsapp.HelpActivity;
 import com.example.whatsapp.Model.User;
 import com.example.whatsapp.R;
 import com.google.android.gms.tasks.Continuation;
@@ -49,6 +51,9 @@ public class ProfileFragment extends Fragment {
 
     CircleImageView image_profile;
     TextView username;
+    ImageView guanyu;
+    ImageView help;
+    ImageView contact;
 
     DatabaseReference reference;
     FirebaseUser firebaseUser;
@@ -66,6 +71,9 @@ public class ProfileFragment extends Fragment {
 
         image_profile = view.findViewById(R.id.profile_image);
         username = view.findViewById(R.id.username);
+        guanyu = view.findViewById(R.id.guanyu);
+        help = view.findViewById(R.id.help);
+        contact = view.findViewById(R.id.contact);
 
         storageReference = FirebaseStorage.getInstance().getReference("uploads");
 
@@ -79,7 +87,7 @@ public class ProfileFragment extends Fragment {
                 username.setText(user.getUsername());
 
                 if (user.getImageURL().equals("default")){
-                    image_profile.setImageResource(R.mipmap.ic_launcher);
+                    image_profile.setImageResource(R.mipmap.ic_launcher_round);
                 } else {
                     if(getContext()!=null) {
                         Glide.with(getContext()).load(user.getImageURL()).into(image_profile);
@@ -99,6 +107,28 @@ public class ProfileFragment extends Fragment {
                 openImage();
             }
         });
+
+        guanyu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), GuanyuActivity.class));
+            }
+        });
+
+        help.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), HelpActivity.class));
+            }
+        });
+
+        contact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), ContactActivity.class));
+            }
+        });
+
         return view;
     }
 

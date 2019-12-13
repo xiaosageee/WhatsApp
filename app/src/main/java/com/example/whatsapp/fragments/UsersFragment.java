@@ -1,6 +1,7 @@
 package com.example.whatsapp.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -17,8 +18,10 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.example.whatsapp.Adapter.UserAdapter;
+import com.example.whatsapp.FriendActivity;
 import com.example.whatsapp.Model.User;
 import com.example.whatsapp.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -69,6 +72,15 @@ public class UsersFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
 
+            }
+        });
+
+        FloatingActionButton floatingActionButton = view.findViewById(R.id.floating_action_button);
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), FriendActivity.class));
             }
         });
 

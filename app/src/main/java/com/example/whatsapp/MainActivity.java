@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     CircleImageView profile_image;
     TextView username;
-    Button btn_add_frend;
+//    Button btn_add_frend;
 
     FirebaseUser firebaseUser;
     DatabaseReference reference;
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
         profile_image = findViewById(R.id.profile_image);
         username = findViewById(R.id.username);
-        btn_add_frend = findViewById(R.id.btn_add_friend);
+//        btn_add_frend = findViewById(R.id.btn_add_friend);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                 if (user.getImageURL().equals("default")){
-                    profile_image.setImageResource(R.mipmap.ic_launcher);
+                    profile_image.setImageResource(R.mipmap.ic_launcher_round);
                 } else{
 
 //                    //之前没有判空，报错
@@ -128,13 +128,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btn_add_frend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, FriendActivity.class));
-                finish();
-            }
-        });
+//        btn_add_frend.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(MainActivity.this, FriendActivity.class));
+//                finish();
+//            }
+//        });
 
     }
 

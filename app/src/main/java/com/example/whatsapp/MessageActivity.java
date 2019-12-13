@@ -115,7 +115,7 @@ public class MessageActivity extends AppCompatActivity {
 
                 //对话框中显示对方的的头像和名字
                 if (user.getImageURL().equals("default")){
-                    profile_image.setImageResource(R.mipmap.ic_launcher);
+                    profile_image.setImageResource(R.mipmap.ic_launcher_round);
                 }else {
 
 //                    //之前没有判空，报错

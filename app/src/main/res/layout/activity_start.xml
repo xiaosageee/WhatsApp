@@ -9,13 +9,18 @@
     android:background="@color/colorAdapter"
     tools:context=".StartActivity">
 
-    <TextView
+<!--    <TextView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="WhatsApp"-->
+<!--        android:textSize="35dp"-->
+<!--        android:textColor="@color/colorPrimaryDark"-->
+<!--        android:textStyle="bold"/>-->
+
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="WhatsApp"
-        android:textSize="35dp"
-        android:textColor="@color/colorPrimaryDark"
-        android:textStyle="bold"/>
+        android:src="@drawable/logo"/>
 
     <Button
         android:layout_width="250dp"

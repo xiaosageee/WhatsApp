@@ -34,12 +34,12 @@
                 android:textSize="18sp"
                 android:layout_marginStart="25dp"/>
 
-            <Button
-                android:id="@+id/btn_add_friend"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:layout_marginLeft="130dp"
-                android:background="@drawable/add"/>
+<!--            <Button-->
+<!--                android:id="@+id/btn_add_friend"-->
+<!--                android:layout_width="22dp"-->
+<!--                android:layout_height="22dp"-->
+<!--                android:layout_marginLeft="130dp"-->
+<!--                android:background="@drawable/add"/>-->
 
         </androidx.appcompat.widget.Toolbar>
 
